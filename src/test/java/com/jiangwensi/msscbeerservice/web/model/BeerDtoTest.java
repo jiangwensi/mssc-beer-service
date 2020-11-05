@@ -2,6 +2,8 @@ package com.jiangwensi.msscbeerservice.web.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.validator.internal.IgnoreForbiddenApisErrors;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
@@ -24,9 +26,10 @@ class BeerDtoTest extends BaseTest {
     }
 
 
+    @Disabled
     @Test
     void testDeserialize() throws IOException {
-        String json = "{\"id\":\"90e69474-161d-4bdc-9fea-fe1394b990cd\",\"version\":null,\"createdDate\":\"2020-11-05T13:32:33.3978634+08:00\",\"lastModifiedDate\":\"2020-11-05T13:32:33.3978634+08:00\",\"beerName\":\"BeerName\",\"beerStyle\":\"ALE\",\"upc\":12312341234123,\"price\":12.99,\"quantityOnHand\":null}";
+        String json = "{\"id\":\"f676747e-3d2a-402e-977b-0e42e08f3dd8\",\"version\":null,\"createdDate\":\"2020-11-05T15:37:49.5510145+08:00\",\"lastModifiedDate\":\"2020-11-05T15:37:49.5510145+08:00\",\"beerName\":\"Beer Name\",\"beerStyle\":\"ALE\",\"upc\":12312341234123,\"price\":\"12.99\",\"quantityOnHand\":null,\"myLocalDate\":\"20201105\"}";
         BeerDto dto = objectMapper.readValue(json,BeerDto.class);
         System.out.println(dto);
     }
