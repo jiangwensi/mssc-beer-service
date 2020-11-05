@@ -10,10 +10,9 @@ import org.springframework.test.context.ActiveProfiles;
 /**
  * Created by Jiang Wensi on 5/11/2020
  */
-@ActiveProfiles("snake")
+@ActiveProfiles("kebab")
 @JsonTest
-public class BeerDtoSnakeTest extends BaseTest{
-
+public class BeerDtoKebabTest extends BaseTest{
     @Test
     void testSnake() throws JsonProcessingException {
         BeerDto dto = getDto();
