@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:11-browsers-legacy
 
     working_directory: ~/repo
     environment:
@@ -17,7 +17,7 @@ jobs:
             - v1-dependencies-
       - run: mvn dependency:go-offline
       - save_cache:
-          path:
+          paths:
             - ~/.m2
           key: v1-dependencies-{{checksum "pom.xml"}}
 
