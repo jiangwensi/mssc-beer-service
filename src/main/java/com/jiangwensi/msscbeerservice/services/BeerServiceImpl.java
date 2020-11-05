@@ -10,11 +10,11 @@ import com.jiangwensi.msscbeerservice.web.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -28,52 +28,76 @@ public class BeerServiceImpl implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public BeerDto getById(UUID beerId) {
-        return beerMapper.beerToBeerDto(
-                beerRepository.findById(beerId).orElseThrow(()->new NotFoundException())
-        );
+    public BeerDto getById(UUID beerId, Boolean showInventoryOnHand) {
+        if (showInventoryOnHand != null && showInventoryOnHand) {
+            return beerMapper.beerToBeerDtoShowInventory(
+                    beerRepository.findById(beerId).orElseThrow(() -> new NotFoundException()));
+        } else {
+            return beerMapper.beerToBeerDtoHideInventory(
+                    beerRepository.findById(beerId).orElseThrow(() -> new NotFoundException()));
+        }
     }
 
     @Override
-    public BeerDto saveNewBeer(BeerDto beerDto) {
-        return beerMapper.beerToBeerDto(
-                beerRepository.save(beerMapper.beerDtoToBeer(beerDto)));
+    public BeerDto saveNewBeer(BeerDto beerDto, Boolean showInventoryOnHand) {
+        if (showInventoryOnHand != null && showInventoryOnHand) {
+            return beerMapper.beerToBeerDtoShowInventory(
+                    beerRepository.save(beerMapper.beerDtoToBeer(beerDto)));
+        } else {
+            return beerMapper.beerToBeerDtoHideInventory(
+                    beerRepository.save(beerMapper.beerDtoToBeer(beerDto)));
+        }
     }
 
     @Override
-    public BeerDto updateBeer(UUID beerId, BeerDto beerDto) {
+    public BeerDto updateBeer(UUID beerId, BeerDto beerDto, Boolean showInventoryOnHand) {
         Beer beer = beerRepository.findById(beerId).orElseThrow(NotFoundException::new);
         beer.setBeerName(beerDto.getBeerName());
         beer.setBeerStyle(beerDto.getBeerStyle().name());
         beer.setPrice(beerDto.getPrice());
         beer.setUpc(beerDto.getUpc());
-        return beerMapper.beerToBeerDto(beerRepository.save(beer));
+
+        if (showInventoryOnHand != null && showInventoryOnHand) {
+            return beerMapper.beerToBeerDtoShowInventory(beerRepository.save(beer));
+        } else {
+            return beerMapper.beerToBeerDtoHideInventory(beerRepository.save(beer));
+        }
     }
 
     @Override
-    public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest) {
+    public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest,
+                                   Boolean showInventoryOnHand) {
         BeerPagedList beerPagedList;
         Page<Beer> beerPage;
-        if(!StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)){
-            beerPage = beerRepository.findAllByBeerNameAndBeerStyle(beerName,beerStyle, pageRequest);
+        if (!StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)) {
+            beerPage = beerRepository.findAllByBeerNameAndBeerStyle(beerName, beerStyle, pageRequest);
         } else if (!StringUtils.isEmpty(beerName) && StringUtils.isEmpty(beerStyle)) {
             beerPage = beerRepository.findAllByBeerName(beerName, pageRequest);
-        } else if(StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)){
+        } else if (StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)) {
             beerPage = beerRepository.findAllByBeerStyle(beerStyle, pageRequest);
         } else {
             beerPage = beerRepository.findAll(pageRequest);
         }
 
+        Function<Beer, BeerDto> mapBeerToBeerDto;
+
+        if (showInventoryOnHand != null && showInventoryOnHand) {
+            mapBeerToBeerDto = (e) -> beerMapper.beerToBeerDtoShowInventory(e);
+        } else {
+            mapBeerToBeerDto = (e) -> beerMapper.beerToBeerDtoHideInventory(e);
+        }
+
         beerPagedList = new BeerPagedList(
                 beerPage.getContent()
                         .stream()
-                        .map(beerMapper::beerToBeerDto)
+                        .map(mapBeerToBeerDto)
                         .collect(Collectors.toList()),
-                        PageRequest
-                                .of(beerPage.getPageable().getPageNumber(),
-                        beerPage.getPageable().getPageSize()),
-                        beerPage.getTotalElements());
+                PageRequest
+                        .of(beerPage.getPageable().getPageNumber(),
+                                beerPage.getPageable().getPageSize()),
+                beerPage.getTotalElements());
 
         return beerPagedList;
     }
+
 }

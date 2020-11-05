@@ -52,8 +52,8 @@ public class BeerDto {
     private BigDecimal price;
 
     private Integer quantityOnHand;
-
-    @JsonSerialize(using=LocalDateSerializer.class)
-    @JsonDeserialize(using=LocalDateDeserializer.class)
-    private LocalDate myLocalDate;
+//
+//    @JsonSerialize(using=LocalDateSerializer.class)
+//    @JsonDeserialize(using=LocalDateDeserializer.class)
+//    private LocalDate myLocalDate;
 }

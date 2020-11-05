@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 @Mapper(uses = {DateMapper.class})
 @DecoratedWith(BeerMapperDecorator.class)
 public interface BeerMapper {
-
-    BeerDto beerToBeerDto(Beer beer);
+    BeerDto beerToBeerDtoShowInventory(Beer beer);
+    BeerDto beerToBeerDtoHideInventory(Beer e);
     Beer beerDtoToBeer(BeerDto dto);
 }
