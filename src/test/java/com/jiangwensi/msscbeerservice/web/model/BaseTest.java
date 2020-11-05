@@ -10,7 +10,7 @@ import java.util.UUID;
 public class BaseTest {
     BeerDto getDto(){
         return BeerDto.builder()
-                .beerName("BeerName")
+                .beerName("Beer Name")
                 .beerStyle(BeerStyleEnum.ALE)
                 .id(UUID.randomUUID())
                 .createdDate(OffsetDateTime.now())
