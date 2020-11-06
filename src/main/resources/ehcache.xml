@@ -4,9 +4,9 @@
     <service>
         <jsr107:defaults enable-management="true" enable-statistics="true"/>
     </service>
-    <cache alias="beerCache" use-template="config-cache"/>
-    <cache alias="beerUpcCache" use-template="config-cache"/>
-    <cache alias="beerListCache" use-template="config-cache"/>
+    <cache alias="beerCache" uses-template="config-cache"/>
+    <cache alias="beerUpcCache" uses-template="config-cache"/>
+    <cache alias="beerListCache" uses-template="config-cache"/>
     <cache-template name="config-cache">
         <expiry>
             <ttl unit="minutes">5</ttl>
