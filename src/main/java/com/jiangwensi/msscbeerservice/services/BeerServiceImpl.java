@@ -28,9 +28,8 @@ public class BeerServiceImpl implements BeerService {
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
 
-    @Cacheable(cacheNames="beerCache",key="#beerId", condition = "#showInventoryOnHand == null || " +
-            "#showInventoryOnHand == " +
-            "false ")
+    @Cacheable(cacheNames = "beerCache", key = "#beerId",
+            condition = "#showInventoryOnHand == null || #showInventoryOnHand == false")
     @Override
     public BeerDto getById(UUID beerId, Boolean showInventoryOnHand) {
         if (showInventoryOnHand != null && showInventoryOnHand) {
@@ -40,6 +39,15 @@ public class BeerServiceImpl implements BeerService {
             return beerMapper.beerToBeerDtoHideInventory(
                     beerRepository.findById(beerId).orElseThrow(() -> new NotFoundException()));
         }
+    }
+
+
+    @Cacheable(cacheNames = "beerUpcCache")
+    @Override
+    public BeerDto getByUpc(String upc) {
+        System.out.println("getByUpc is called");
+
+        return beerMapper.beerToBeerDtoShowInventory(beerRepository.findByUpc(upc));
     }
 
     @Override
@@ -68,7 +76,7 @@ public class BeerServiceImpl implements BeerService {
         }
     }
 
-    @Cacheable(cacheNames="beerListCache", condition = "#showInventoryOnHand == null || #showInventoryOnHand == false ")
+    @Cacheable(cacheNames = "beerListCache", condition = "#showInventoryOnHand == null || #showInventoryOnHand == false ")
     @Override
     public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest,
                                    Boolean showInventoryOnHand) {
