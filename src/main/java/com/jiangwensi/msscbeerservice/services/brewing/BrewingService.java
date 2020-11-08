@@ -1,4 +1,4 @@
-package com.jiangwensi.msscbeerservice.services;
+package com.jiangwensi.msscbeerservice.services.brewing;
 
 import com.jiangwensi.msscbeerservice.domain.Beer;
 import com.jiangwensi.msscbeerservice.event.BrewBeerEvent;
