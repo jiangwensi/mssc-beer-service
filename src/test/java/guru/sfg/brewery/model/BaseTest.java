@@ -1,6 +1,8 @@
-package guru.springframework.common.events;
+package guru.sfg.brewery.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.sfg.brewery.model.BeerDto;
+import guru.sfg.brewery.model.BeerStyleEnum;
 import guru.springframework.msscbeerservice.bootstrap.BeerLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 

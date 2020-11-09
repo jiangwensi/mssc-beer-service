@@ -1,4 +1,4 @@
-package guru.springframework.common.events;
+package guru.sfg.brewery.model.events;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

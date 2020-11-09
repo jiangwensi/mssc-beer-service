@@ -1,4 +1,4 @@
-package guru.springframework.common.events;
+package guru.sfg.brewery.model.events;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

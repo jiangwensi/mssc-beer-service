@@ -1,4 +1,4 @@
-package guru.springframework.common.events;
+package guru.sfg.brewery.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
