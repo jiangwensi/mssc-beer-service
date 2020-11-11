@@ -1,7 +1,7 @@
 package guru.springframework.msscbeerservice.services.order;
 
-import guru.sfg.brewery.model.ValidateOrderRequest;
-import guru.sfg.brewery.model.ValidateOrderResult;
+import guru.sfg.brewery.model.events.ValidateOrderRequest;
+import guru.sfg.brewery.model.events.ValidateOrderResult;
 import guru.springframework.msscbeerservice.config.JMSConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jms.annotation.JmsListener;
