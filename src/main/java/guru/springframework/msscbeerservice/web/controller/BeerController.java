@@ -16,9 +16,9 @@ import java.util.UUID;
 /**
  * Created by Jiang Wensi on 4/11/2020
  */
+@RequiredArgsConstructor
 @RequestMapping("/api/v1")
 @RestController
-@RequiredArgsConstructor
 public class BeerController {
 
     private static final Integer DEFAULT_PAGE_NUMBER = 0;
