@@ -13,8 +13,8 @@ import java.util.UUID;
 /**
  * Created by Jiang Wensi on 12/11/2020
  */
-@FeignClient(name="inventory-service", fallback = InventoryFailoverFeignClientImpl.class)
-public interface InventoryServiceFeignClient {
-    @RequestMapping(method= RequestMethod.GET, value=BeerInventoryServiceRestTemplate.INVENTORY_PATH)
-    ResponseEntity<List<BeerInventoryDto>> getOnhandInventory(@PathVariable UUID beerId);
+@FeignClient(name="inventory-failover")
+public interface InventoryFailoverFeignClient {
+    @RequestMapping(method= RequestMethod.GET, value="/inventory-failover")
+    ResponseEntity<List<BeerInventoryDto>> getOnhandInventory();
 }
